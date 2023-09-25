@@ -1,0 +1,27 @@
+import matplotlib.pyplot as plt
+import math
+import random
+import tensorflow as tf
+import numpy as np
+
+num_steps = 30
+x_set=np.arange(num_steps,dtype="float")
+m=random.uniform(1,5)
+c=random.uniform(1,5)
+
+noise=(np.random.rand(num_steps)-0.5)*20
+y_set=np.array([m*x+c for x in x_set],dtype="float")+noise
+
+plt.scatter(x_set,y_set)
+
+shar =tf.keras.layers.Dense(units=1,input_shape=[1])
+model=tf.keras.Sequential([shar])
+
+model.compile(loss='mean_squared_error',optimizer=tf.keras.optimizers.Adam(0.1))
+history=model.fit(x_set,y_set,epochs=500,verbose=False)
+prediction=model.predict(x_set).flatten()
+plt.xlabel("x")
+plt.ylabel("y")
+
+plt.scatter(x_set,y_set)
+ax=plt.plot(prediction,'r')
